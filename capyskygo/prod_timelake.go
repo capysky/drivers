@@ -18,7 +18,7 @@ type (
 )
 
 const (
-	AnyStoreAccessKeyKey = "AnyStore.AccessKeyKey.85629437"
+	TimeLakeAccessKeyKey = "TimeLake.AccessKeyKey.85629437"
 	CollTypeJson         = CollType("json")
 	CollTypeCsv          = CollType("csv")
 	CollTypeKv           = CollType("kv")
@@ -145,7 +145,7 @@ func (c *Cursor) Decode(valPtr any) error {
 // Create grpcs request, set auth token in request if username and password available.
 func (c *CapyskyClient) newRequestWithAuth() grpcs.Request {
 	request := grpcs.NewRequest()
-	request.Set(AnyStoreAccessKeyKey, c.accessKey)
+	request.Set(TimeLakeAccessKeyKey, c.accessKey)
 	return request
 }
 
