@@ -364,15 +364,17 @@ func (c *CapyskyClient) DeleteDocs(dbName, collName string, IdGte any, IdLte any
 	return c.rpc.Call("DeleteDocs", request, nil)
 }
 
-// ScanObjectKeys scans object keys in bucket.
-func (c *CapyskyClient) ScanObjectKeys(dbName, collName, pageToken string) ([]string, string, error) {
+// ListObjectKeys scans object keys in bucket.
+func (c *CapyskyClient) ListObjectKeys(dbName, collName string, keyPrefix *string, pageSize int, pageToken *string) ([]string, *string, error) {
 	request := c.newRequestWithAuth()
 	request.Set("dbName", dbName)
 	request.Set("collName", collName)
+	request.Set("keyPrefix", keyPrefix)
+	request.Set("pageSize", pageSize)
 	request.Set("pageToken", pageToken)
 	reply := grpcs.NewReply()
-	if err := c.rpc.Call("ScanObjectKeys", request, &reply); err != nil {
-		return nil, "", err
+	if err := c.rpc.Call("ListObjectKeys", request, &reply); err != nil {
+		return nil, nil, err
 	}
 	var res []string
 	if reply.Get("keys") != nil {
@@ -380,7 +382,7 @@ func (c *CapyskyClient) ScanObjectKeys(dbName, collName, pageToken string) ([]st
 			res = append(res, v.(string))
 		}
 	}
-	return res, reply.Get("nextPageToken").(string), nil
+	return res, reply.Get("nextPageToken").(*string), nil
 }
 
 // UpsertObject update/insert object into bucket.

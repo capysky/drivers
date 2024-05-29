@@ -21,7 +21,7 @@ func New(network, addr, accessKey string) (*CapyskyClient, error) {
 	}
 
 	err := error(nil)
-	cli.rpc, err = grpcs.Dial(grpcs.RpcTypeJSON, network, addr, NewRPCChecker())
+	cli.rpc, err = grpcs.Dial(grpcs.RpcTypeJSON, network, addr, NewRPCChecker(), nil)
 	if err != nil {
 		return nil, err
 	}
