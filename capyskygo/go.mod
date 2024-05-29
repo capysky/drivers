@@ -1,4 +1,4 @@
-module github.com/capysky/drivers/go
+module github.com/capysky/drivers/capyskygo
 
 go 1.22.3
 
